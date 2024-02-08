@@ -2,4 +2,4 @@
 
 ## Screenshot
 
-![HackerRank Screenshot](materials/Bibek Kumar Labh_Data Assignment.png)
+![HackerRank Screenshot](materials/Bibek-Kumar-Labh_Data_Assignment.png)
