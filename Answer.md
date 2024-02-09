@@ -15,7 +15,7 @@
 
 > **git clone git@github.com:bibek65/My-Git-Flow.git**
 
-    ![Screenshot](materials/3.png)
+![Screenshot](materials/3.png)
 
 - Set up a remote named upstream pointing to the original repository.
 
