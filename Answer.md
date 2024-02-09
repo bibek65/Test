@@ -15,15 +15,13 @@
 
 > **git clone git@github.com:bibek65/My-Git-Flow.git**
 
-![Screenshot](materials/3.png)
-
 - Set up a remote named upstream pointing to the original repository.
 
   For this we can use the below command
 
 > **git remote set-url origin [url]**
 
-- url to the original repository
+        where url is url to the original repository
 
 2.  _Branching and Workflow:_(CLI is recommended. Do try in UI also.)
 
@@ -31,9 +29,9 @@
 
 - Create a develop branch.
 
-Initialize Gitflow:
+  Initialize Gitflow:
 
-![Screenshot](materials/4.png)
+  ![Screenshot](materials/3.png)
 
 By initializing git flow develop and main branches are created
 
@@ -41,25 +39,25 @@ By initializing git flow develop and main branches are created
 
 In gitflow we can implement a feature branch as
 
-![Screenshot](materials/5.png)
+![Screenshot](materials/4.png)
 
 - Merge the feature branch into the develop branch.
 
 Merging the feature branch into develop branch can be done as
 
-![Screenshot](materials/6.png)
+![Screenshot](materials/5.png)
 
 - Create a release branch named release/v1.0 from the develop branch.
 
 Release branch can be created as
 
-![Screenshot](materials/7.png)
+![Screenshot](materials/6.png)
 
 - Tag the release branch with version v1.0.
 
 Tag is created automatically when you finish the release
 
-![Screenshot](materials/8.png)
+![Screenshot](materials/7.png)
 
 - Merge the release branch into both main and develop branches.
 
@@ -67,11 +65,11 @@ When we finish the release it will be merged into main and develop
 
 Branches as shown below :
 
-![Screenshot](materials/9.png)
+![Screenshot](materials/8.png)
 
 I have push the changes to the remote repo as well :
 
-![Screenshot](materials/10.png)
+![Screenshot](materials/9.png)
 
 3.  _Conflict Resolution:_
 
@@ -79,23 +77,23 @@ I have push the changes to the remote repo as well :
 
 To introduce conflict in the feature/add-advanced-functionality I have added a echo statement in example.sh file which I created earlier as shown below
 
-![Screenshot](materials/11.png)
+![Screenshot](materials/10.png)
 
 Then I have created another branch feature/add-simple-functionality
 
 And add echo statement in the same line as shown below
 
-![Screenshot](materials/12.png)
+![Screenshot](materials/11.png)
 
 Now I have merged feature/add-simple-functionality into feature/add-advanced-functionality now conflict is occurred as shown below
 
-![Screenshot](materials/13.png)
+![Screenshot](materials/12.png)
 
 - Resolve the conflict using Git and document the resolution steps.
 
 You can resolve the conflict using VS Code by choosing one of the actions provided by VS. In my case I have chosen accept both changes to resolve the issue and continue the merge process.
 
-![Screenshot](materials/14.png)
+![Screenshot](materials/13.png)
 
 4. _Git Submodules:_
 
@@ -103,13 +101,15 @@ You can resolve the conflict using VS Code by choosing one of the actions provid
 
 To demonstrate git submodule I have taken a temp repo which I created in my github account . Now to add a submodule we can do this by
 
-![Screenshot](materials/15.png)
+![Screenshot](materials/14.png)
 
 - Update the README to include instructions on how to initialize and update the submodule.
 
-![Screenshot](materials/16.png)
+![Screenshot](materials/15.png)
 
 To show git submodule init I have just clone the repo . At first we couldnot see the files of submodules. So to do that we have to use initialize and update the submodule that can be done as shown below
+
+![Screenshot](materials/16.png)
 
 ![Screenshot](materials/17.png)
 
