@@ -15,9 +15,11 @@
 
 > **git clone git@github.com:bibek65/My-Git-Flow.git**
 
-    ![Screenshot](materials/3.png)ry.
+    ![Screenshot](materials/3.png)
 
-    For this we can use the below command
+- Set up a remote named upstream pointing to the original repository.
+
+  For this we can use the below command
 
 > **git remote set-url origin [url]**
 
