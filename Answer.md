@@ -13,15 +13,15 @@
 
   To clone a repository on local machine we can use the below command
 
-> **git clone git@github.com:bibek65/My-Git-Flow.git**
+  > **git clone git@github.com:bibek65/My-Git-Flow.git**
 
 - Set up a remote named upstream pointing to the original repository.
 
   For this we can use the below command
 
-> **git remote set-url origin [url]**
+  > **git remote set-url origin [url]**
 
-    where url is url to the original repository
+where url is url to the original repository
 
 2.  _Branching and Workflow:_(CLI is recommended. Do try in UI also.)
 
