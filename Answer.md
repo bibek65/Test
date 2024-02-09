@@ -21,7 +21,7 @@
 
   > **git remote set-url origin [url]**
 
-where url is url to the original repository
+  where url is url to the original repository
 
 2.  _Branching and Workflow:_(CLI is recommended. Do try in UI also.)
 
