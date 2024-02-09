@@ -154,6 +154,6 @@
 
     ![Screenshot](materials/25.png)
 
-  Here commit A is picked and 3 commits are squashed into one.
+    Here commit A is picked and 3 commits are squashed into one.
 
     ![Screenshot](materials/26.png)
