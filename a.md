@@ -1,157 +1,104 @@
-1.  _Repository Setup:_
 
-- Fork the provided repository on Git Classroom.
 
-    ![Screenshot](materials/1.png)
+**User Stories**
 
-    As forking is not available so I have created a repository on my own.
+-   Implement Continuous Integration Pipeline
+-   Establish Deployment Automation
+-   Implement Infrastructure as Code (IaC)
+-   Enhance Monitoring and Alerting
 
-- Clone the forked repository to your local machine.
+**User Story 1:**
 
-    One way to clone the repo is by copying the ssh url
+**Title:** Implement Continuous Integration Pipeline
 
-    ![Screenshot](materials/2.png)
+**Description:** Implement seamless continuous integration process to ensure that code changes are automatically validated and integrated into the main branch
 
-    To clone a repository on local machine we can use the below command
+**Acceptance Criteria:**
 
-    > **git clone git@github.com:bibek65/My-Git-Flow.git**
+1.  Jenkins pipeline configured to automatically build and test the code upon each commit.
+2.  Automated unit tests, integration tests, and code quality checks integrated into the CI process.
+3.  Build artifacts generated and stored in a centralized repository.
+4.  Notification system set up for build success/failure to team via email or messaging platform.
 
-- Set up a remote named upstream pointing to the original repository.
+**Estimation**
 
-    For this we can use the below command
+Baseline Effort: 5 story points
 
-    > **git remote set-url origin [url]**
+**Rationale:**
 
-    where url is url to the original repository
+-   Complexity: Medium - Implementing a Jenkins pipeline involves integrating multiple tools, configuring build scripts, and ensuring compatibility with different types of applications.
+-   Dependencies: Low to Medium - Integration with version control systems, testing frameworks, and deployment platforms can introduce dependencies.
+-   Skill Level: Medium to High - Team members should be familiar with CI/CD concepts, build tools, and the technology stack in use.
 
-2.  _Branching and Workflow:_(CLI is recommended. Do try in UI also.)
+----------
 
-- Implement a Git branching strategy using Gitflow:
+**User Story 2:**
 
-- Create a develop branch.
+**Title:** Establish Deployment Automation
 
-    Initialize Gitflow:
+**Description:** Automate the deployment process to the staging environment to ensure consistency and reduce manual errors.
 
-    ![Screenshot](materials/3.png)
+**Acceptance Criteria:**
 
-    By initializing git flow develop and main branches are created
+1.  The deployment process should be triggered automatically upon successful completion of the CI pipeline to target environments (e.g., staging, production) consistently.
+2.  Configuration management tools (e.g., Ansible, Puppet) should be utilized for infrastructure provisioning.
+3.  Integration with CI pipeline for automatic deployment to staging.
+4.  Rollback mechanism in case of deployment failure.
 
-- Implement a feature (a simple script) in a branch named feature/add-advanced-functionality.
+**Estimation**
 
-    In gitflow we can implement a feature branch as
+Baseline Effort : 8 story points
 
-    ![Screenshot](materials/4.png)
+**Rationale:**
 
-- Merge the feature branch into the develop branch.
+-   Complexity: High –To establish deployment automation it involves many process like scripting deployment processes, handling infrastructure changes, and coordinating with different services. The complexity increases with the number of environments and services.
+-   Dependencies: Medium to High - Integration with CI/CD pipelines and proper configuration management tool setup are critical dependencies.
+-   Skill Level: High - Team members should have expertise in scripting, deployment strategies, and configuration management tools.
 
-    Merging the feature branch into develop branch can be done as
+-   ----------
+    
 
-    ![Screenshot](materials/5.png)
+**User Story 3:**
 
-- Create a release branch named release/v1.0 from the develop branch.
+**Title:** Implement Infrastructure as Code (IaC)
 
-    Release branch can be created as
+**Description:** Implementing Infrastructure as Code (IaC) to automate manual tasks and facilitate continuous delivery.
 
-    ![Screenshot](materials/6.png)
+**Acceptance Criteria:**
 
-- Tag the release branch with version v1.0.
+1.  Infrastructure resources (e.g., servers, databases, networks) should be defined and managed by IaC tool such as Terraform or AWS CloudFormation
+2.  Infrastructure code should be version-controlled and documented
 
-    Tag is created automatically when you finish the release
+**Estimation**
 
-    ![Screenshot](materials/7.png)
+Baseline Effort : 5 story points
 
-- Merge the release branch into both main and develop branches.
+**Rationale:**
 
-    When we finish the release it will be merged into main and develop branches as shown below :
+-   Complexity: Medium to High - Implementing IaC involves learning and utilizing tools, defining infrastructure, and ensuring proper version control. Complexity increases with the size and complexity of the infrastructure.
+-   Dependencies: Medium - Integration with version control systems and collaboration with the development team for application and infrastructure changes.
+-   Skill Level: Medium to High - Team members should be proficient in IaC tools and understand the infrastructure requirements.
 
-    ![Screenshot](materials/8.png)
+----------
 
-    I have push the changes to the remote repo as well :
+**User Story 4:**
 
-    ![Screenshot](materials/9.png)
+**Title:** Enhance Monitoring and Alerting
 
-3.  _Conflict Resolution:_
+**Description:** Monitoring and alerting capabilities to receive timely alerts and monitor the health of infrastructure to proactively detect and mitigate issues
 
-- Introduce a deliberate conflict in the feature/add-advanced-functionality branch.
+**Acceptance Criteria:**
 
-    To introduce conflict in the feature/add-advanced-functionality I have added a echo statement in example.sh file which I created earlier as shown below
+1.  Monitoring tools (e.g., Prometheus) should be integrated for monitoring for key metrics such as CPU, memory, disk usage, and application-specific metrics
+2.  Thresholds defined for critical metrics.
+3.  Alerting system configured for immediate notification.
 
-    ![Screenshot](materials/10.png)
+**Estimation**
 
-    Then I have created another branch feature/add-simple-functionality
+Baseline Effort : 5 story points
 
-    And added echo statement in the same line as shown below
+**Rationale:**
 
-    ![Screenshot](materials/11.png)
-
-    Now I have merged feature/add-simple-functionality into feature/add-advanced-functionality now conflict is occurred as shown below
-
-    ![Screenshot](materials/12.png)
-
-- Resolve the conflict using Git and document the resolution steps.
-
-    You can resolve the conflict using VS Code by choosing one of the actions provided by VS. In my case I have chosen accept both changes to resolve the issue and continue the merge process.
-
-    ![Screenshot](materials/13.png)
-
-4. _Git Submodules:_
-
-- Add a submodule pointing to another public GitHub repository of your choice within the project.
-
-    To demonstrate git submodule I have taken a temp repo which I created in my github account . Now to add a submodule we can do this by
-
-    ![Screenshot](materials/14.png)
-
-- Update the README to include instructions on how to initialize and update the submodule.
-
-    ![Screenshot](materials/15.png)
-
-    To show git submodule init I have just clone the repo . At first we couldnot see the files of submodules. So to see those files we have to use initialize and update the submodule that can be done as shown below
-
-    ![Screenshot](materials/16.png)
-
-    ![Screenshot](materials/17.png)
-
-5.  _Hooks and Custom Scripts:_
-
-- Implement a custom Git post-merge hook that triggers a script (post-merge-script.sh) whenever a merge occurs in the repository.
-
-    Navigate to .git/hooks/
-
-    Create a file post-merge that will trigger the script post-merge-script.sh whenever a merge occurs
-
-    ![Screenshot](materials/18.png)
-
-    post-merge-script.sh
-
-    ![Screenshot](materials/19.png)
-
-- Ensure the script is executable and prints a message indicating a successful merge.
-
-    To make the script executable . Below is the command
-
-    ![Screenshot](materials/20.png)
-
-    ![Screenshot](materials/21.png)
-
-    Message "Merge Successful" is seen while merging as below
-
-    ![Screenshot](materials/22.png)
-
-6.  _Interactive Rebase:_
-
-- Perform an interactive rebase on the develop branch to squash three consecutive commits into a single commit.
-
-    To demonstrate this I have done 4 commits Now to squash the 3 consecutive commits
-
-    We can use interactive rebase as shown below
-
-    ![Screenshot](materials/23.png)
-
-    ![Screenshot](materials/24.png)
-
-    ![Screenshot](materials/25.png)
-
-    Here commit A is picked and 3 commits are squashed into one.
-
-    ![Screenshot](materials/26.png)
+-   Complexity: Medium - Setting up monitoring and alerting involves selecting and configuring monitoring tools, defining relevant metrics, and setting up alerting rules.
+-   Dependencies: Low to Medium - Integration with collaboration platforms and coordination with development teams for application-specific metrics.
+-   Skill Level: Medium - Team members should have experience with monitoring tools and understanding of system and application metrics.
