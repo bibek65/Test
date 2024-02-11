@@ -1,104 +1,151 @@
+1.  _Type 2 Hypervisor Setup:_ (your choice of application)
 
+-   Install a type-2 hypervisor into your machine
 
-**User Stories**
+	For the Type 2 hypervisor, I've choosen VirtualBox for its user-friendly interface and compatibility with various operating systems.
 
--   Implement Continuous Integration Pipeline
--   Establish Deployment Automation
--   Implement Infrastructure as Code (IaC)
--   Enhance Monitoring and Alerting
+2.  _Type 1 Hypervisor Setup:_ (your choice of hypervisor, recommendation Proxmox)
 
-**User Story 1:**
+-   Create a VM (with nested virtualization enabled)
 
-**Title:** Implement Continuous Integration Pipeline
+	Installation:
 
-**Description:** Implement seamless continuous integration process to ensure that code changes are automatically validated and integrated into the main branch
+	Download the Proxmox VE ISO from the official website.
 
-**Acceptance Criteria:**
+	Then I have installed it in virtual box
 
-1.  Jenkins pipeline configured to automatically build and test the code upon each commit.
-2.  Automated unit tests, integration tests, and code quality checks integrated into the CI process.
-3.  Build artifacts generated and stored in a centralized repository.
-4.  Notification system set up for build success/failure to team via email or messaging platform.
+    ![Screenshot](materials/1.png)
 
-**Estimation**
+	Choose the ram cpu and disk as required
 
-Baseline Effort: 5 story points
+    ![Screenshot](materials/2.png)
 
-**Rationale:**
+	You can enable the nested virtualization feature:
 
--   Complexity: Medium - Implementing a Jenkins pipeline involves integrating multiple tools, configuring build scripts, and ensuring compatibility with different types of applications.
--   Dependencies: Low to Medium - Integration with version control systems, testing frameworks, and deployment platforms can introduce dependencies.
--   Skill Level: Medium to High - Team members should be familiar with CI/CD concepts, build tools, and the technology stack in use.
+	From the VirtualBox Manager, select the **_Enable Nested VT-x/AMD-V_** check box on the **_Processor_** tab.
 
-----------
+	This feature enables the passthrough of hardware virtualization functions to the guest VM.
 
-**User Story 2:**
+    ![Screenshot](materials/3.png)
 
-**Title:** Establish Deployment Automation
+	Go to network
 
-**Description:** Automate the deployment process to the staging environment to ensure consistency and reduce manual errors.
+    ![Screenshot](materials/4.png)
 
-**Acceptance Criteria:**
+	Change the adapter mode from NAT to bridge mode because we want to be able to access the proxmox machine directly through the host browser.
 
-1.  The deployment process should be triggered automatically upon successful completion of the CI pipeline to target environments (e.g., staging, production) consistently.
-2.  Configuration management tools (e.g., Ansible, Puppet) should be utilized for infrastructure provisioning.
-3.  Integration with CI pipeline for automatic deployment to staging.
-4.  Rollback mechanism in case of deployment failure.
+-   Install a type-1 hypervisor on the VM
 
-**Estimation**
+	Complete all the setup by running the VM in virtual box.
 
-Baseline Effort : 8 story points
+    ![Screenshot](materials/5.png)
 
-**Rationale:**
+	After the installation process is complete power off the machine.
 
--   Complexity: High –To establish deployment automation it involves many process like scripting deployment processes, handling infrastructure changes, and coordinating with different services. The complexity increases with the number of environments and services.
--   Dependencies: Medium to High - Integration with CI/CD pipelines and proper configuration management tool setup are critical dependencies.
--   Skill Level: High - Team members should have expertise in scripting, deployment strategies, and configuration management tools.
+    ![Screenshot](materials/6.png)
 
--   ----------
-    
+	Remove the iso file from cd disk. And start the VM again.
 
-**User Story 3:**
+    ![Screenshot](materials/7.png)
 
-**Title:** Implement Infrastructure as Code (IaC)
+	The proxmox hypervisor is setup successful.
 
-**Description:** Implementing Infrastructure as Code (IaC) to automate manual tasks and facilitate continuous delivery.
+3.  _Network Access:_
 
-**Acceptance Criteria:**
+-   Setup network and access the type-1 hypervisor's admin panel.
 
-1.  Infrastructure resources (e.g., servers, databases, networks) should be defined and managed by IaC tool such as Terraform or AWS CloudFormation
-2.  Infrastructure code should be version-controlled and documented
+	As I have changed the adapter mode from NAT to bridge mode. I am able to access the proxmox machine directly through the browser.
 
-**Estimation**
+-   Access the hypervisor from your host/laptop
 
-Baseline Effort : 5 story points
+	Open Web Browser On your host/laptop, open a web browser (e.g., Chrome, Firefox, or Edge).
 
-**Rationale:**
+	Access Proxmox Web Interface: In the address bar of the web browser, enter the IP address of your Proxmox VE machine.
 
--   Complexity: Medium to High - Implementing IaC involves learning and utilizing tools, defining infrastructure, and ensuring proper version control. Complexity increases with the size and complexity of the infrastructure.
--   Dependencies: Medium - Integration with version control systems and collaboration with the development team for application and infrastructure changes.
--   Skill Level: Medium to High - Team members should be proficient in IaC tools and understand the infrastructure requirements.
+    ![Screenshot](materials/8.png)
 
-----------
+    ![Screenshot](materials/9.png)
 
-**User Story 4:**
+	Username is root and password is the password that you have given while setting up the proxmox.
 
-**Title:** Enhance Monitoring and Alerting
+4.  _Prepare to create a new VM inside type-1 hypervisor:_
 
-**Description:** Monitoring and alerting capabilities to receive timely alerts and monitor the health of infrastructure to proactively detect and mitigate issues
+-   Setup storage, network, and other resources as per the requirement.
 
-**Acceptance Criteria:**
+	For testing purposes, I've selected to deploy an Alpine OS within a Type-1 hypervisor environment.
 
-1.  Monitoring tools (e.g., Prometheus) should be integrated for monitoring for key metrics such as CPU, memory, disk usage, and application-specific metrics
-2.  Thresholds defined for critical metrics.
-3.  Alerting system configured for immediate notification.
+	First I have uploaded the iso image of alpine os as shown below
 
-**Estimation**
+    ![Screenshot](materials/10.png)
 
-Baseline Effort : 5 story points
+	To create the VM click on create VM button. Add the name of VM .Select the storage and other resources as shown below
 
-**Rationale:**
+    ![Screenshot](materials/11.png)
 
--   Complexity: Medium - Setting up monitoring and alerting involves selecting and configuring monitoring tools, defining relevant metrics, and setting up alerting rules.
--   Dependencies: Low to Medium - Integration with collaboration platforms and coordination with development teams for application-specific metrics.
--   Skill Level: Medium - Team members should have experience with monitoring tools and understanding of system and application metrics.
+    ![Screenshot](materials/12.png)
+
+    ![Screenshot](materials/13.png)
+
+    ![Screenshot](materials/14.png)
+
+    ![Screenshot](materials/15.png)
+
+	During the creation of VM I got error as shown below which I resolved by changing KVM hardware virtualization to No.
+
+    ![Screenshot](materials/16.png)
+
+    ![Screenshot](materials/17.png)
+
+_Create and manage VM:_
+
+-   Take a snapshot of that VM
+
+	You can take snapshot of VM by navigating to snapshots tab of VM and click on take snapshot provide the name and save it.
+
+    ![Screenshot](materials/18.png)
+
+-   Make changes to files/system inside the VM
+
+	For testing I have created a directory inside home directory.
+
+    ![Screenshot](materials/19.png)
+
+-   Revert the VM to the previous snapshot to reset the changes
+
+	Now lets revert the changes made to the previous snapshot
+
+    ![Screenshot](materials/20.png)
+
+	Goto snapshot and click rollback by selecting the previous snapshot
+
+    ![Screenshot](materials/21.png)
+
+	Now the directory created inside the home directory is no more there.
+
+    ![Screenshot](materials/22.png)
+
+5.  _Setup another Type 1 Hypervisor:_
+
+-   Install another type-1 hypervisor as described in previous steps (1-5).
+
+	I have just cloned the hypervisor
+
+    ![Screenshot](materials/23.png)
+
+	Changed the ip address by editing from /etc/network/interfaces
+
+    ![Screenshot](materials/24.png)
+
+6.  _Access both Type 1 hypervisors from host PC_
+
+    ![Screenshot](materials/25.png)
+
+7.  _Internet connectivity:_
+
+-   Both type-1 hypervisors have connectivity to the internet
+
+	I have ping the google.com from both type-1 hypervisors and it is pinging successfully as shown below
+
+    ![Screenshot](materials/26.png)
+
+-   VMs inside of hypervisors also have connectivity to the internet
