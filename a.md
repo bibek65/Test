@@ -149,3 +149,15 @@ _Create and manage VM:_
     ![Screenshot](materials/26.png)
 
 -   VMs inside of hypervisors also have connectivity to the internet
+
+	There's an issue with internet access from within the VMs, despite obtaining DHCP-assigned IP addresses. Despite multiple attempts to troubleshoot, I couldnot find solution. Internet connectivity within the VMs is currently restricted, hindering their ability to ping beyond the local network. I'm seeking guidance and feedback to resolve this  issue.
+
+	I have included screenshots of the network interfaces for both Proxmox and the VM. If any adjustments are necessary, kindly provide feedback on the configurations. 
+
+	![Screenshot](materials/27.png)
+
+	![Screenshot](materials/28.png)
+
+	![Screenshot](materials/29.png)
+
+
