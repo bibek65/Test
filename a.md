@@ -1,163 +1,154 @@
-1.  _Type 2 Hypervisor Setup:_ (your choice of application)
+# 1. Basics
 
--   Install a type-2 hypervisor into your machine
+Copy your  `/etc/passwd`  file to  `/tmp`  and write a script to display the following:
 
-	For the Type 2 hypervisor, I've choosen VirtualBox for its user-friendly interface and compatibility with various operating systems.
+-   Full contents of the file sorted in ascending order (display the whole file)
+-   Total number of lines in the file
+-   Total number of characters in the file
+-   All usernames containing the letter  `s`
+-   All usernames starting from  `r`
 
-2.  _Type 1 Hypervisor Setup:_ (your choice of hypervisor, recommendation Proxmox)
+Copying /etc/passwd file to /tmp
 
--   Create a VM (with nested virtualization enabled)
+    cp /etc/passwd /tmp/passwd_copy
 
-	Installation:
+**Bash Script**
 
-	Download the Proxmox VE ISO from the official website.
+```
+#!/bin/bash
 
-	Then I have installed it in virtual box
+# Full contents of the file sorted in ascending order
+echo "Full contents of the file sorted in ascending order:"
+sort /tmp/passwd_copy
 
-    ![Screenshot](materials/1.png)
+# Total number of lines in the file
+echo -e "\nTotal number of lines in the file:"
+wc -l /tmp/passwd_copy | awk '{print $1}'
 
-	Choose the ram cpu and disk as required
+# Total number of characters in the file
+echo -e "\nTotal number of characters in the file:"
+wc -m /tmp/passwd_copy | awk '{print $1}'
 
-    ![Screenshot](materials/2.png)
+# All usernames containing the letter 's'
+echo -e "\nUsernames containing the letter 's':"
+cut -d: -f1 /etc/passwd | grep 's'
 
-	You can enable the nested virtualization feature:
+# All usernames starting from 'r'
+echo -e "\nUsernames starting from 'r':"
+awk -F':' '$1 ~ /^r/ {print $1}' /tmp/passwd_copy
 
-	From the VirtualBox Manager, select the **_Enable Nested VT-x/AMD-V_** check box on the **_Processor_** tab.
+```
 
-	This feature enables the passthrough of hardware virtualization functions to the guest VM.
 
-    ![Screenshot](materials/3.png)
+# 2. Naive Parser
 
-	Go to network
+Given the following CSV file, write a Bash script to find if the total number of delimeters in the file is correct.
 
-    ![Screenshot](materials/4.png)
+```
+		id|first_letter|last_full|age
+		0|S|Dangol|24
+		1|P|Koirala|17
+		2|S|Dotel|18
+		3|N|Shresth|19
+		4|A|Joshi|22|
+```
 
-	Change the adapter mode from NAT to bridge mode because we want to be able to access the proxmox machine directly through the host browser.
+**Bash Script**
 
--   Install a type-1 hypervisor on the VM
+  
+This script aims to ensure consistency in the number of delimiters across all lines in a CSV file.
 
-	Complete all the setup by running the VM in virtual box.
+The first line as the header have 3 delimiters.
 
-    ![Screenshot](materials/5.png)
+The total expected delimiters should be 3 times the number of lines.
 
-	After the installation process is complete power off the machine.
+In the given example with 6 lines, the expected total is 18 delimiters.
 
-    ![Screenshot](materials/6.png)
+However, the script found 19 delimiters.
 
-	Remove the iso file from cd disk. And start the VM again.
+So it displayed **“Error: The total number of delimiters is incorrect.”**
 
-    ![Screenshot](materials/7.png)
+```
+#!/bin/bash
 
-	The proxmox hypervisor is setup successful.
+# Define the filename
+filename="temp.csv"
 
-3.  _Network Access:_
+# Function to count delimiters in each line
+count_delimiters() {
+    local line="$1"
+    local delimiter="|"
+    local count=$(grep -o "$delimiter" <<< "$line" | wc -l)
+    echo "$count"
+}
 
--   Setup network and access the type-1 hypervisor's admin panel.
+# Main script
+total_delimiters=0
+no_of_lines=$(wc -l < "$filename")
+delimiter=$(grep -o "|" <<< "$(head -n 1 "$filename")" | wc -l) #Counting delimiters in first line
 
-	As I have changed the adapter mode from NAT to bridge mode. I am able to access the proxmox machine directly through the browser.
+while IFS= read -r line; do
+    # Count delimiters in the line
+    delimiter_count=$(count_delimiters "$line")
+    total_delimiters=$((total_delimiters + delimiter_count))
+done < "$filename"
 
--   Access the hypervisor from your host/laptop
+correct_delimiters=$((delimiter * no_of_lines))
 
-	Open Web Browser On your host/laptop, open a web browser (e.g., Chrome, Firefox, or Edge).
+if [ "$total_delimiters" -eq "$correct_delimiters" ]; then
+    echo "The total number of delimiters is correct."
+else
+    echo "Error: The total number of delimiters is incorrect."
+fi
+```
+**Output**
 
-	Access Proxmox Web Interface: In the address bar of the web browser, enter the IP address of your Proxmox VE machine.
+![Screenshot](materials/1.png)
 
-    ![Screenshot](materials/8.png)
 
-    ![Screenshot](materials/9.png)
+## 3. Cron
 
-	Username is root and password is the password that you have given while setting up the proxmox.
+Write a cron job that runs every hour. It should:
 
-4.  _Prepare to create a new VM inside type-1 hypervisor:_
+-   Fetch the HTML response from  `https://www.example.com`
+-   Log the output inside this directory  `/var/log/bash_assignment/`
+-   Compress all previous logs as a ZIP archive
+-   Keep only 5 most-recent archives and delete all other archives
 
--   Setup storage, network, and other resources as per the requirement.
+Cron Job that runs every hour is
 
-	For testing purposes, I've selected to deploy an Alpine OS within a Type-1 hypervisor environment.
+	0 * * * * /bin/bash /tmp/script.sh
 
-	First I have uploaded the iso image of alpine os as shown below
+**Bash Script**
 
-    ![Screenshot](materials/10.png)
+```
+#!/bin/bash
 
-	To create the VM click on create VM button. Add the name of VM .Select the storage and other resources as shown below
+# Set the directory for log files
+log_directory="/var/log/bash_assignment"
 
-    ![Screenshot](materials/11.png)
+# Fetch HTML response and log
+timestamp=$(date +"%Y%m%d_%H%M%S")
+curl -s https://www.example.com > "$log_directory/response_$timestamp.html"
 
-    ![Screenshot](materials/12.png)
+# Compress previous logs as a ZIP archive
+cd "$log_directory"
 
-    ![Screenshot](materials/13.png)
+# Remove previous tar.gz file if it exists
+if [ -e "all_logs_archive.tar.gz" ]; then
+    rm -f "all_logs_archive.tar.gz"
+fi
 
-    ![Screenshot](materials/14.png)
+# Create a new tar.gz archive
+tar -czf "all_logs_archive.tar.gz" *.html
 
-    ![Screenshot](materials/15.png)
+# Keep only 5 most-recent archives and delete others
+ls -t response_*.html | tail -n +6 | xargs rm -f
 
-	During the creation of VM I got error as shown below which I resolved by changing KVM hardware virtualization to No.
+```
+**Output**
 
-    ![Screenshot](materials/16.png)
+![Screenshot](materials/2.png)
 
-    ![Screenshot](materials/17.png)
-
-_Create and manage VM:_
-
--   Take a snapshot of that VM
-
-	You can take snapshot of VM by navigating to snapshots tab of VM and click on take snapshot provide the name and save it.
-
-    ![Screenshot](materials/18.png)
-
--   Make changes to files/system inside the VM
-
-	For testing I have created a directory inside home directory.
-
-    ![Screenshot](materials/19.png)
-
--   Revert the VM to the previous snapshot to reset the changes
-
-	Now lets revert the changes made to the previous snapshot
-
-    ![Screenshot](materials/20.png)
-
-	Goto snapshot and click rollback by selecting the previous snapshot
-
-    ![Screenshot](materials/21.png)
-
-	Now the directory created inside the home directory is no more there.
-
-    ![Screenshot](materials/22.png)
-
-5.  _Setup another Type 1 Hypervisor:_
-
--   Install another type-1 hypervisor as described in previous steps (1-5).
-
-	I have just cloned the hypervisor
-
-    ![Screenshot](materials/23.png)
-
-	Changed the ip address by editing from /etc/network/interfaces
-
-    ![Screenshot](materials/24.png)
-
-6.  _Access both Type 1 hypervisors from host PC_
-
-    ![Screenshot](materials/25.png)
-
-7.  _Internet connectivity:_
-
--   Both type-1 hypervisors have connectivity to the internet
-
-	I have ping the google.com from both type-1 hypervisors and it is pinging successfully as shown below
-
-    ![Screenshot](materials/26.png)
-
--   VMs inside of hypervisors also have connectivity to the internet
-
-	There's an issue with internet access from within the VMs, despite obtaining DHCP-assigned IP addresses. Despite multiple attempts to troubleshoot, I couldnot find solution. Internet connectivity within the VMs is currently restricted, hindering their ability to ping beyond the local network. I'm seeking guidance and feedback to resolve this  issue.
-
-	I have included screenshots of the network interfaces for both Proxmox and the VM. If any adjustments are necessary, kindly provide feedback on the configurations. 
-
-	![Screenshot](materials/27.png)
-
-	![Screenshot](materials/28.png)
-
-	![Screenshot](materials/29.png)
 
 
